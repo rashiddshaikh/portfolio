@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "lint": "next lint",
-    "start": "next start",
+    "start": "next start --webpack",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "start:https": "node server.https.js"
   },

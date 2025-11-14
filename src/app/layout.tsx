@@ -6,7 +6,6 @@ import React from 'react';
 import '@/styles/globals.css';
 
 import { PERSONAL_INFO } from '@/data/info';
-import Hotjar from '@hotjar/browser';
 
 import BackToTopButton from '@/components/BackToTopButton';
 import GradientBackgroundGodrayThingy from '@/components/GradientBackgroundGodrayThingy';

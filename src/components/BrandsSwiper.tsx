@@ -1,4 +1,4 @@
-// import InfiniteSwiper from '@/components/_base/InfiniteSwiper';
+
 
 // // const BRANDS = [
 // //   '/brands/huawei.png',
@@ -34,6 +34,3 @@
 // // }
 
 // // Placeholder export to avoid errors if this file is imported
-// export default function BrandsSwiper() {
-//   return null;
-// }

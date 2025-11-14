@@ -5,7 +5,7 @@ export const PROJECTS_LAST_UPDATED = 'September 2025';
 export const PROJECTS: Project[] = [
   {
     type: 'backend',
-     name: 'PayFlow Gateway',
+    name: 'PayFlow Gateway',
     description: `A secure and efficient payment processing microservice integrating Stripe APIs with Java Spring Boot.</br>
     Handles transaction workflows, webhook management, and error logging for scalable payment systems.`,
     image: '/web/hulkhire_logo.png',
@@ -79,7 +79,7 @@ export const PROJECTS: Project[] = [
   },
 
 
-   {
+  {
     type: 'web',
     name: 'RideSwift Platform',
     description: `A real-time ride booking platform built with TypeScript and React.</br>

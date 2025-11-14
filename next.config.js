@@ -1,21 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    dirs: ['src'],
-  },
+  // Remove deprecated: eslint, swcMinify, reactStrictMode
 
-  reactStrictMode: true,
-  swcMinify: true,
   experimental: {},
 
   webpack(config) {
-    // Grab the existing rule that handles SVG imports
+    // Grab existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg')
     );
 
     config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
+      // Reapply existing rule for *.svg?url
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
@@ -34,6 +30,7 @@ const nextConfig = {
       }
     );
 
+    // Ensure SVGs aren’t loaded twice
     fileLoaderRule.exclude = /\.svg$/i;
 
     return config;
