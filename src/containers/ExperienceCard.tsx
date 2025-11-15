@@ -34,8 +34,8 @@ export default function ExperienceCard() {
               <Image
                 alt={`${exp.company.name} logo`}
                 src={exp.company.logo}
-                width={40}
-                height={40}
+                width={80}
+                height={80}
                 className="object-contain"
               />
             </a>
