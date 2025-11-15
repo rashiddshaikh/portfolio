@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import DataProvider from '@/data/DataProvider';
 import Section from '@/containers/Section';
 
@@ -14,20 +13,13 @@ export default function Footer() {
     >
       <div className="border-t border-lime-500/50 pt-3">
         <div className="flex flex-col items-center">
-
-          {/* Logo */}
+          
           <Link href="/" className="title-font cursor-pointer font-medium">
-            <Image
-              src="/favicon.ico"
-              alt="Site Logo"
-              width={40}
-              height={40}
-              className="mb-2"   // 👈 adds space BELOW the logo
-            />
+            <img src="/favicon.ico" className="w-10 h-10" />
           </Link>
 
           {/* Tagline */}
-          <p className="text-[11px] text-gray-400 italic">
+          <p className="text-[11px] text-gray-400 mt-1 italic">
             Building meaningful digital experiences
           </p>
 
