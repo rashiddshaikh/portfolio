@@ -1,11 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Force Webpack instead of Turbopack
-  turbopack: {
-    enabled: false,
-  },
-
-  webpack(config) {
+  // Force Next.js to use Webpack instead of Turbopack
+  webpack: (config) => {
+    // Custom SVG handling
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg')
     );
@@ -21,10 +18,7 @@ const nextConfig = {
         issuer: { not: /\.(css|scss|sass)$/ },
         resourceQuery: { not: /url/ },
         loader: '@svgr/webpack',
-        options: {
-          dimensions: false,
-          titleProp: true,
-        },
+        options: { dimensions: false, titleProp: true },
       }
     );
 
@@ -32,6 +26,9 @@ const nextConfig = {
 
     return config;
   },
+
+  // ⛔ REMOVE TURBOPACK CONFIG
+  turbopack: {}, // tells Next.js "I am intentionally using Webpack"
 };
 
 module.exports = nextConfig;
