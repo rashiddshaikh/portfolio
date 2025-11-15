@@ -57,25 +57,25 @@ export default function RootLayout({
         />
       )}
 
-      <body className='bg-b-light'>
+      <body className="bg-b-light">
         <BackToTopButton />
 
-        <div className='relative min-h-screen'>
-          <span className='fixed bottom-2 left-2 z-50 opacity-0 transition-opacity duration-500 sm:opacity-100'>
+        <div className="relative min-h-screen">
+          <span className="fixed bottom-2 left-2 z-50 opacity-0 transition-opacity duration-500 sm:opacity-100">
             <Socials static />
           </span>
 
-          <div className='pointer-events-none absolute h-full w-full overflow-clip'>
+          <div className="pointer-events-none absolute h-full w-full overflow-clip">
             <GradientBackgroundGodrayThingy />
           </div>
 
           <Header />
 
-          <div className='relative z-30 mx-auto h-full max-w-screen-lg place-items-center transition-all'>
+          <div className="relative z-30 mx-auto h-full max-w-screen-lg place-items-center transition-all">
             {children}
           </div>
 
-          <div className='z-10 mx-auto mt-5 px-1 lg:px-20'>
+          <div className="z-10 mx-auto mt-5 px-1 lg:px-20">
             <Footer />
           </div>
         </div>

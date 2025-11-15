@@ -36,12 +36,12 @@ export default function Section(props: Props) {
           className
         )}
       >
-        {props.isLoading ? <LinearLoading /> : <div className='h-2'></div>}
+        {props.isLoading ? <LinearLoading /> : <div className="h-2"></div>}
 
-        <div className='container mx-auto'>
+        <div className="container mx-auto">
           {title && (
-            <h2 className='p-4 text-xl font-medium text-lime-400 md:p-10'>
-              {title} <span className='text-white'>{'( ) {'}</span>
+            <h2 className="p-4 text-xl font-medium text-lime-400 md:p-10">
+              {title} <span className="text-white">{'( ) {'}</span>
             </h2>
           )}
 
@@ -57,7 +57,7 @@ export default function Section(props: Props) {
           </div>
 
           {title && (
-            <h2 className='p-4 pb-2 pt-4 text-xl font-medium text-white md:p-10 md:px-10 md:pt-10'>
+            <h2 className="p-4 pb-2 pt-4 text-xl font-medium text-white md:p-10 md:px-10 md:pt-10">
               {'}'}
             </h2>
           )}

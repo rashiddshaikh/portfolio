@@ -9,26 +9,26 @@ import { RESUME_PATH } from '@/utils/env';
 
 export default function Header() {
   return (
-    <header className='z-40 text-white'>
-      <div className='container relative mx-auto flex flex-row place-items-center justify-between px-10 py-4'>
+    <header className="z-40 text-white">
+      <div className="container relative mx-auto flex flex-row place-items-center justify-between px-10 py-4">
         <Link
-          href='/'
-          className='title-font cursor-pointer font-medium md:justify-start'
+          href="/"
+          className="title-font cursor-pointer font-medium md:justify-start"
         >
           <Image
-            src='/favicon.ico'
-            alt='Portfolio logo'
+            src="/favicon.ico"
+            alt="Portfolio logo"
             width={48}
             height={48}
-            className='w-12'
+            className="w-12"
           />
         </Link>
 
-        <div className='flex-1' />
+        <div className="flex-1" />
 
         <Socials />
 
-        <ArrowLink newTab className='text-md' title='Resume' href={RESUME_PATH}>
+        <ArrowLink newTab className="text-md" title="Resume" href={RESUME_PATH}>
           Résumé
         </ArrowLink>
       </div>

@@ -1,154 +1,124 @@
-'use client';
+import { delay } from '../../../utils/utils';
 
-import { FormEvent, useEffect, useRef, useState } from 'react';
+export type SearchInFileOptions = {
+  fileList: FileList;
+  query: string;
+  max: number;
+};
 
-import PageWrapper from '@/containers/PageWrapper';
-import Section from '@/containers/Section';
+export type SearchFileResult = {
+  file: string;
+  data: string[];
+};
 
-import { SearchFileResult, SearchResult } from './searchInFile.worker';
-import { twMerge } from 'tailwind-merge';
+export type SearchResult = {
+  total: number;
+  results: SearchFileResult[];
+};
 
-export default function ProjectsPage() {
-  const [query, setQuery] = useState('');
-  const [dir, setDir] = useState<FileList | null>(null);
-  const [result, setResult] = useState<SearchResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+self.onmessage = async function (event: MessageEvent<SearchInFileOptions>) {
+  const data = await searchInFiles(event.data);
+  postMessage(data);
+};
 
-  const workerRef = useRef<Worker>();
-
-  useEffect(() => {
-    return () => onCancel();
-  }, []);
-
-  const registerWorker = () => {
-    workerRef.current = new Worker(
-      new URL('./searchInFile.worker.ts', import.meta.url)
-    );
-
-    workerRef.current.onmessage = (event: MessageEvent<SearchResult>) => {
-      onResult(event.data);
-    };
+const searchInFiles = async (
+  options: SearchInFileOptions
+): Promise<SearchResult> => {
+  const allData: SearchResult = {
+    total: 0,
+    results: [],
   };
 
-  const onCancel = () => {
-    setIsLoading(false);
-    workerRef.current?.terminate();
-  };
+  for (let i = 0; i < options.fileList.length; i++) {
+    const file = options.fileList.item(i);
+    if (!file) break;
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    registerWorker();
-    setIsLoading(true);
-    setResult(null);
-    setError('');
+    const fileResult = await searchInFile(file, options.query, options.max);
 
-    if (!workerRef.current) return;
-
-    workerRef.current.postMessage({
-      fileList: dir,
-      query,
-      max: 100,
+    allData.results.push({
+      file: file.name,
+      data: fileResult,
     });
-  };
 
-  const onResult = (data: SearchResult) => {
-    setResult(data);
-    setIsLoading(false);
-  };
+    allData.total += fileResult.length;
+  }
 
-  const renderFileResults = (item: SearchFileResult) => {
-    return (
-      <div key={item.file}>
-        <h4 className='mt-4 bg-green-900'>
-          from: {item.file} ({item.data.length})
-        </h4>
+  return allData;
+};
 
-        {item.data.map((line, index) => (
-          <li key={`${item.file}_${index}`} className='mt-2 pl-4'>
-            <p>
-              <strong>{index + 1}.</strong> {line}
-            </p>
-            <hr className='opacity-50' />
-          </li>
-        ))}
-      </div>
-    );
-  };
+const searchInFile = async (
+  file: File,
+  query: string,
+  max: number
+): Promise<string[]> => {
+  await delay(500);
 
-  return (
-    <PageWrapper>
-      <Section
-        elevated={true}
-        isLoading={isLoading}
-        title='File search demo'
-        className='pattern-2 md:mx-15 mx-4 mt-10 sm:mx-8'
-      >
-        <form
-          className='w-full border-2 border-dashed border-green-200 p-4'
-          onSubmit={onSubmit}
-        >
-          <input
-            className='mt-2 w-full rounded-lg text-center text-sm font-medium text-white hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300'
-            type='file'
-            name='files'
-            multiple
-            onChange={(e) => setDir(e.target.files)}
-            required
-            accept='.txt'
-          />
+  const fileSize = file.size;
+  const result: string[] = [];
+  const CHUNK_SIZE = 1024 * 1024; // 1 MB
+  const decoder = new TextDecoder('utf-8');
 
-          <small className='px-4'>
-            Select multiple TXT files (XLSX support coming soon)
-          </small>
+  let offset = 0;
+  const lines: string[] = [];
 
-          <input
-            type='text'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            name='name'
-            className='mt-4 block w-full rounded-lg border bg-green-800/25 p-2.5 text-sm text-white placeholder-gray-400 focus:border-green-500 focus:ring-blue-500'
-            required
-          />
+  while (offset < fileSize) {
+    const chunk = await readChunk(file, offset, CHUNK_SIZE);
+    if (!chunk) return result;
 
-          <button
-            disabled={isLoading}
-            type='submit'
-            className={twMerge(
-              'mt-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300',
-              isLoading ? 'opacity-20' : 'hover:cursor-pointer'
-            )}
-          >
-            Search
-          </button>
+    const decodedChunk = decoder.decode(chunk);
+    const chunkLines = decodedChunk.split('\n');
 
-          {!!error && <h6 className='mt-2 text-red-400'>{error}</h6>}
-        </form>
+    if (offset + CHUNK_SIZE >= fileSize) {
+      chunkLines.pop(); // remove last empty line
+    }
 
-        {isLoading && (
-          <button
-            onClick={onCancel}
-            className='mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-blue-300'
-          >
-            Cancel
-          </button>
-        )}
+    lines.push(...chunkLines);
 
-        {!!result && (
-          <div className='align-start mt-4 w-full justify-start text-start'>
-            <h4>
-              Results ({result.total}){' '}
-              {result.total >= 100 && (
-                <small className='px-4 font-light text-gray-400'>
-                  Showing only 100 results from each file
-                </small>
-              )}
-            </h4>
+    // Process lines while the first is complete
+    while (
+      lines.length > 0 &&
+      (lines[0].endsWith('\n') || lines[0].endsWith('\r'))
+    ) {
+      const line = lines.shift();
+      if (line && line.includes(query)) {
+        result.push(line);
+      }
+      if (result.length >= max) return result;
+    }
 
-            <ol>{result.results.map((item) => renderFileResults(item))}</ol>
-          </div>
-        )}
-      </Section>
-    </PageWrapper>
-  );
+    offset += CHUNK_SIZE;
+  }
+
+  // Remaining lines
+  while (lines.length > 0) {
+    const line = lines.shift();
+    if (line && line.includes(query)) result.push(line);
+    if (result.length >= max) break;
+  }
+
+  return result;
+};
+
+function readChunk(
+  file: File,
+  offset: number,
+  length: number
+): Promise<Uint8Array> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const buffer = event?.target?.result;
+      if (buffer instanceof ArrayBuffer) {
+        resolve(new Uint8Array(buffer));
+      } else {
+        resolve(new Uint8Array());
+      }
+    };
+
+    reader.onerror = (error) => reject(error);
+
+    const chunk = file.slice(offset, offset + length);
+    reader.readAsArrayBuffer(chunk);
+  });
 }

@@ -28,8 +28,9 @@ const methods: (() => boolean)[] = [
     };
 
     if (globalWindow.huawei !== undefined) return true;
-    if (globalWindow.device?.manufacturer?.toLowerCase() === 'huawei')
-      return true;
+    if (
+      globalWindow.device?.manufacturer?.toLowerCase() === 'huawei'
+    ) return true;
     if (globalWindow.hw !== undefined) return true;
     if (globalWindow.Hw !== undefined) return true;
     if (globalWindow.HMJS !== undefined) return true;
@@ -51,26 +52,26 @@ export default function ProjectsPage() {
       {render && (
         <Section
           elevated={true}
-          title='Detect Huawei device using User Agent'
-          className='pattern-2 md:mx-15 mx-4 mt-10 sm:mx-8'
+          title="Detect Huawei device using User Agent"
+          className="pattern-2 md:mx-15 mx-4 mt-10 sm:mx-8"
         >
           <p>
             user agent: <strong>{navigator.userAgent}</strong>
           </p>
           <br />
 
-          <div className='max-w-full'>
+          <div className="max-w-full">
             {methods.map((func, i) => (
               <div key={'m' + i}>
                 <h6>method {i + 1}</h6>
 
-                <pre className='whitespace-pre-wrap rounded-md bg-green-900/25 p-4'>
+                <pre className="whitespace-pre-wrap rounded-md bg-green-900/25 p-4">
                   {func.toString()}
                 </pre>
 
                 <h6>result: {func() ? 'true' : 'false'}</h6>
 
-                <hr className='my-4' />
+                <hr className="my-4" />
               </div>
             ))}
           </div>
