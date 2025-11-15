@@ -1,8 +1,8 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
-
 import './style.scss';
-
 import { reveal } from './reveal';
 
 type RevealWrapperType = {
@@ -25,43 +25,45 @@ type RevealWrapperType = {
   viewOffset?: { top: number; right: number; bottom: number; left: number };
 };
 
-const RevealWrapper: React.FC<RevealWrapperType> = ({
-  children,
-  className,
-  origin,
-  distance,
-  duration,
-  delay,
-  reset,
-  easing,
-  opacity,
-  rotate,
-  scale,
-  cleanup,
-  desktop,
-  mobile,
-  useDelay,
-  viewFactor,
-  viewOffset,
-}) => {
+const RevealWrapper: React.FC<RevealWrapperType> = (props) => {
+  const {
+    children,
+    className,
+    origin,
+    distance,
+    duration,
+    delay,
+    reset,
+    easing,
+    opacity,
+    rotate,
+    scale,
+    cleanup,
+    desktop,
+    mobile,
+    useDelay,
+    viewFactor,
+    viewOffset,
+  } = props;
+
   const ref = useRef<HTMLDivElement>(null);
-  const Origin = origin === undefined || null ? reveal.origin : origin;
-  const Distance = distance === undefined || null ? reveal.distance : distance;
-  const Duration = duration === undefined || null ? reveal.duration : duration;
-  const Delay = delay === undefined || null ? reveal.delay : delay;
-  const Reset = reset === undefined || null ? reveal.reset : reset;
-  const Easing = easing === undefined || null ? reveal.easing : easing;
-  const Opacity = opacity === undefined || null ? reveal.opacity : opacity;
-  const Rotate = rotate === undefined || null ? reveal.rotate : rotate;
-  const Scale = scale === undefined || null ? reveal.scale : scale;
-  const Cleanup = cleanup === undefined || null ? reveal.cleanup : cleanup;
-  const Desktop = desktop === undefined || null ? reveal.desktop : desktop;
-  const Mobile = mobile === undefined || null ? reveal.mobile : mobile;
-  const UseDelay = useDelay === undefined || null ? reveal.useDelay : useDelay;
-  const ViewFactor =
-    viewFactor === undefined || null ? reveal.viewFactor : viewFactor;
-  const ViewOffset =
-    viewOffset === undefined || null ? reveal.viewOffset : viewOffset;
+
+  const Origin = origin ?? reveal.origin;
+  const Distance = distance ?? reveal.distance;
+  const Duration = duration ?? reveal.duration;
+  const Delay = delay ?? reveal.delay;
+  const Reset = reset ?? reveal.reset;
+  const Easing = easing ?? reveal.easing;
+  const Opacity = opacity ?? reveal.opacity;
+  const Rotate = rotate ?? reveal.rotate;
+  const Scale = scale ?? reveal.scale;
+  const Cleanup = cleanup ?? reveal.cleanup;
+  const Desktop = desktop ?? reveal.desktop;
+  const Mobile = mobile ?? reveal.mobile;
+  const UseDelay = useDelay ?? reveal.useDelay;
+  const ViewFactor = viewFactor ?? reveal.viewFactor;
+  const ViewOffset = viewOffset ?? reveal.viewOffset;
+
   useEffect(() => {
     const revealOptionProps = {
       origin: Origin,
@@ -84,14 +86,29 @@ const RevealWrapper: React.FC<RevealWrapperType> = ({
     async function revElement() {
       const sr = (await require('scrollreveal')).default(reveal);
 
-      if (revealOptionProps.origin != null && ref.current) {
+      if (ref.current) {
         sr.reveal(ref.current, revealOptionProps);
-      } else if (ref.current) {
-        sr.reveal(ref.current);
       }
     }
+
     revElement();
-  }, []);
+  }, [
+    Origin,
+    Distance,
+    Duration,
+    Delay,
+    Reset,
+    Easing,
+    Opacity,
+    Rotate,
+    Scale,
+    Cleanup,
+    Desktop,
+    Mobile,
+    UseDelay,
+    ViewFactor,
+    ViewOffset,
+  ]);
 
   return (
     <div ref={ref} className={twMerge(className, 'sr-hidden')}>

@@ -1,4 +1,8 @@
+'use client';
+
+import Image from 'next/image';
 import Link from 'next/link';
+
 import DataProvider from '@/data/DataProvider';
 import Section from '@/containers/Section';
 
@@ -13,9 +17,14 @@ export default function Footer() {
     >
       <div className="border-t border-lime-500/50 pt-3">
         <div className="flex flex-col items-center">
-          
           <Link href="/" className="title-font cursor-pointer font-medium">
-            <img src="/favicon.ico" className="w-10 h-10" />
+            <Image
+              src="/favicon.ico"
+              alt="Portfolio logo"
+              width={40}
+              height={40}
+              className="w-10 h-10"
+            />
           </Link>
 
           {/* Tagline */}
@@ -25,9 +34,9 @@ export default function Footer() {
 
           {/* Copyright */}
           <p className="mt-1 text-xs font-semibold text-gray-300">
-            © {new Date().getFullYear()} {personalInfo.firstName} {personalInfo.lastName}
+            © {new Date().getFullYear()} {personalInfo.firstName}{' '}
+            {personalInfo.lastName}
           </p>
-
         </div>
       </div>
     </Section>

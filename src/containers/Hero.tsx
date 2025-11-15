@@ -1,5 +1,10 @@
 'use client';
+
 /* eslint-disable @next/next/no-img-element */
+
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { TypeAnimation } from 'react-type-animation';
 
 import {
   SiMysql,
@@ -9,26 +14,24 @@ import {
   SiReact,
 } from 'react-icons/si';
 
-
-
-import { TypeAnimation } from 'react-type-animation';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-
 import DataProvider from '@/data/DataProvider';
 import { containerVariants, itemVariants } from '@/utils/animation';
 
 const TYPING_DELAY = 1600;
 
 export default function Hero() {
-  const { titlePrefix, titles, firstName, lastName } = new DataProvider()
-    .personalInfo;
+  const { titlePrefix, titles, firstName, lastName } =
+    new DataProvider().personalInfo;
 
-  // eslint-disable-next-line
-  const sequence = titles.reduce(
-    (arr, title) => [...arr, title, TYPING_DELAY, 500],
-    [] as any
-  );
+  // ❌ Old: used ANY
+  // const sequence = titles.reduce((arr, title) => [...arr, title, TYPING_DELAY, 500], [] as any);
+
+  // ✅ New: Properly typed (string | number)[]
+  const sequence: (string | number)[] = titles.flatMap((title) => [
+    title,
+    TYPING_DELAY,
+    500,
+  ]);
 
   return (
     <section className="min-h-500 relative mx-0 overflow-x-clip px-0 pt-5 text-white">
@@ -69,28 +72,26 @@ export default function Hero() {
             animate="show"
             transition={{ delay: 0.3 }}
           >
+            {/* MySQL */}
+            <motion.li variants={itemVariants}>
+              <div className="bg-b-dark absolute inline-flex -translate-y-72 translate-x-72 rounded-full p-6 shadow-2xl md:-translate-y-96 md:translate-x-96">
+                <SiMysql className="md:w-18 md:h-18 h-10 w-10 text-sky-500" />
+              </div>
+            </motion.li>
 
+            {/* Spring Boot */}
+            <motion.li variants={itemVariants}>
+              <div className="bg-b-dark absolute inline-flex -translate-y-80 translate-x-16 rounded-full p-4 shadow-xl md:p-6">
+                <SiSpringboot className="md:w-18 md:h-18 h-10 w-10 text-green-500" />
+              </div>
+            </motion.li>
 
-{/* MySQL */}
-<motion.li variants={itemVariants}>
-  <div className="bg-b-dark absolute inline-flex -translate-y-72 translate-x-72 rounded-full p-6 shadow-2xl md:-translate-y-96 md:translate-x-96">
-    <SiMysql className="md:w-18 md:h-18 h-10 w-10 text-sky-500" />
-  </div>
-</motion.li>
-{/* Spring Boot (moved to former Next.js position) */}
-<motion.li variants={itemVariants}>
-  <div className="bg-b-dark absolute inline-flex -translate-y-80 translate-x-16 rounded-full p-4 shadow-xl md:p-6">
-    <SiSpringboot className="md:w-18 md:h-18 h-10 w-10 text-green-500" />
-  </div>
-</motion.li>
-
-  {/* Docker */}
-  <motion.li variants={itemVariants}>
-   <div className="bg-b-dark absolute inline-flex -translate-y-20 translate-x-10 rounded-full p-4 shadow-lg">
-    <SiDocker size={30} className="text-white" />
-    </div>
-  </motion.li>
-
+            {/* Docker */}
+            <motion.li variants={itemVariants}>
+              <div className="bg-b-dark absolute inline-flex -translate-y-20 translate-x-10 rounded-full p-4 shadow-lg">
+                <SiDocker size={30} className="text-white" />
+              </div>
+            </motion.li>
 
             {/* React */}
             <motion.li variants={itemVariants}>

@@ -24,30 +24,12 @@ export default function Page() {
     if (ENABLE_SESSION_TRACKING) {
       Hotjar.init(HOTJAR_SITE_ID, HOTJAR_VERSION);
     }
-  }, []); 
+  }, []);
 
   return (
     <main>
       <Hero />
-
       <About />
-
-      {/* 
-      <Suspense fallback={<Loading></Loading>}>
-        <Section
-          className="mt-10"
-          contentClassName="animate-in fade-in px-0 mx-0 md:px-0 md:mx-0"
-          elevated={false}
-        >
-          <div className="relative mt-5 block w-full py-1 md:py-2">
-            <h2 className="mb-10 text-center text-sm font-medium text-white md:text-lg">
-              Companies I'm proud to have collaborated with
-            </h2>
-            <BrandsSwiper />
-          </div>
-        </Section>
-      </Suspense>
-      */}
 
       <RevealWrapper delay={250}>
         <Projects />

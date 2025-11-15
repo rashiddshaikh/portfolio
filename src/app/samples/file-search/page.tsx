@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 
 import PageWrapper from '@/containers/PageWrapper';
 import Section from '@/containers/Section';
+
 import { SearchFileResult, SearchResult } from './searchInFile.worker';
 import { twMerge } from 'tailwind-merge';
 
@@ -25,14 +26,12 @@ export default function ProjectsPage() {
       new URL('./searchInFile.worker.ts', import.meta.url)
     );
 
-    // console.log removed (no-console rule)
     workerRef.current.onmessage = (event: MessageEvent<SearchResult>) => {
       onResult(event.data);
     };
   };
 
   const onCancel = () => {
-    // console.log removed
     setIsLoading(false);
     workerRef.current?.terminate();
   };
@@ -44,17 +43,17 @@ export default function ProjectsPage() {
     setResult(null);
     setError('');
 
-    if (workerRef.current) {
-      workerRef.current.postMessage({
-        fileList: dir,
-        query,
-        max: 100,
-      });
-    }
+    if (!workerRef.current) return;
+
+    workerRef.current.postMessage({
+      fileList: dir,
+      query,
+      max: 100,
+    });
   };
 
-  const onResult = (result: SearchResult) => {
-    setResult(result);
+  const onResult = (data: SearchResult) => {
+    setResult(data);
     setIsLoading(false);
   };
 
@@ -65,10 +64,10 @@ export default function ProjectsPage() {
           from: {item.file} ({item.data.length})
         </h4>
 
-        {item.data.map((line, _i) => (
-          <li key={`${item.file}_${_i}`} className="mt-2 pl-4">
+        {item.data.map((line, index) => (
+          <li key={`${item.file}_${index}`} className="mt-2 pl-4">
             <p>
-              <strong>{_i + 1}.</strong> {line}
+              <strong>{index + 1}.</strong> {line}
             </p>
             <hr className="opacity-50" />
           </li>
@@ -147,9 +146,7 @@ export default function ProjectsPage() {
             </h4>
 
             <ol>
-              {result.results.map((item: SearchFileResult) =>
-                renderFileResults(item)
-              )}
+              {result.results.map((item) => renderFileResults(item))}
             </ol>
           </div>
         )}
