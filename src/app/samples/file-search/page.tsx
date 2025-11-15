@@ -60,16 +60,16 @@ export default function ProjectsPage() {
   const renderFileResults = (item: SearchFileResult) => {
     return (
       <div key={item.file}>
-        <h4 className="mt-4 bg-green-900">
+        <h4 className='mt-4 bg-green-900'>
           from: {item.file} ({item.data.length})
         </h4>
 
         {item.data.map((line, index) => (
-          <li key={`${item.file}_${index}`} className="mt-2 pl-4">
+          <li key={`${item.file}_${index}`} className='mt-2 pl-4'>
             <p>
               <strong>{index + 1}.</strong> {line}
             </p>
-            <hr className="opacity-50" />
+            <hr className='opacity-50' />
           </li>
         ))}
       </div>
@@ -81,39 +81,39 @@ export default function ProjectsPage() {
       <Section
         elevated={true}
         isLoading={isLoading}
-        title="File search demo"
-        className="pattern-2 md:mx-15 mx-4 mt-10 sm:mx-8"
+        title='File search demo'
+        className='pattern-2 md:mx-15 mx-4 mt-10 sm:mx-8'
       >
         <form
-          className="w-full border-2 border-dashed border-green-200 p-4"
+          className='w-full border-2 border-dashed border-green-200 p-4'
           onSubmit={onSubmit}
         >
           <input
-            className="mt-2 w-full rounded-lg text-center text-sm font-medium text-white hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300"
-            type="file"
-            name="files"
+            className='mt-2 w-full rounded-lg text-center text-sm font-medium text-white hover:cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-300'
+            type='file'
+            name='files'
             multiple
             onChange={(e) => setDir(e.target.files)}
             required
-            accept=".txt"
+            accept='.txt'
           />
 
-          <small className="px-4">
+          <small className='px-4'>
             Select multiple TXT files (XLSX support coming soon)
           </small>
 
           <input
-            type="text"
+            type='text'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            name="name"
-            className="mt-4 block w-full rounded-lg border bg-green-800/25 p-2.5 text-sm text-white placeholder-gray-400 focus:border-green-500 focus:ring-blue-500"
+            name='name'
+            className='mt-4 block w-full rounded-lg border bg-green-800/25 p-2.5 text-sm text-white placeholder-gray-400 focus:border-green-500 focus:ring-blue-500'
             required
           />
 
           <button
             disabled={isLoading}
-            type="submit"
+            type='submit'
             className={twMerge(
               'mt-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-blue-300',
               isLoading ? 'opacity-20' : 'hover:cursor-pointer'
@@ -122,32 +122,30 @@ export default function ProjectsPage() {
             Search
           </button>
 
-          {!!error && <h6 className="mt-2 text-red-400">{error}</h6>}
+          {!!error && <h6 className='mt-2 text-red-400'>{error}</h6>}
         </form>
 
         {isLoading && (
           <button
             onClick={onCancel}
-            className="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className='mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-blue-300'
           >
             Cancel
           </button>
         )}
 
         {!!result && (
-          <div className="align-start mt-4 w-full justify-start text-start">
+          <div className='align-start mt-4 w-full justify-start text-start'>
             <h4>
               Results ({result.total}){' '}
               {result.total >= 100 && (
-                <small className="px-4 font-light text-gray-400">
+                <small className='px-4 font-light text-gray-400'>
                   Showing only 100 results from each file
                 </small>
               )}
             </h4>
 
-            <ol>
-              {result.results.map((item) => renderFileResults(item))}
-            </ol>
+            <ol>{result.results.map((item) => renderFileResults(item))}</ol>
           </div>
         )}
       </Section>

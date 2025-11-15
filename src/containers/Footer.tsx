@@ -13,27 +13,27 @@ export default function Footer() {
   return (
     <Section
       elevated={false}
-      className="body-font z-0 flex justify-center text-white py-4"
+      className='body-font z-0 flex justify-center py-4 text-white'
     >
-      <div className="border-t border-lime-500/50 pt-3">
-        <div className="flex flex-col items-center">
-          <Link href="/" className="title-font cursor-pointer font-medium">
+      <div className='border-t border-lime-500/50 pt-3'>
+        <div className='flex flex-col items-center'>
+          <Link href='/' className='title-font cursor-pointer font-medium'>
             <Image
-              src="/favicon.ico"
-              alt="Portfolio logo"
+              src='/favicon.ico'
+              alt='Portfolio logo'
               width={40}
               height={40}
-              className="w-10 h-10"
+              className='h-10 w-10'
             />
           </Link>
 
           {/* Tagline */}
-          <p className="text-[11px] text-gray-400 mt-1 italic">
+          <p className='mt-1 text-[11px] italic text-gray-400'>
             Building meaningful digital experiences
           </p>
 
           {/* Copyright */}
-          <p className="mt-1 text-xs font-semibold text-gray-300">
+          <p className='mt-1 text-xs font-semibold text-gray-300'>
             © {new Date().getFullYear()} {personalInfo.firstName}{' '}
             {personalInfo.lastName}
           </p>

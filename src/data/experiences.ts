@@ -1,6 +1,5 @@
 import { Experience } from '@/models/Experience';
 
-
 export const PRESENT = 'present';
 export const EXP_DIVIDER = '●';
 

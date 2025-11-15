@@ -9,8 +9,7 @@ export const SOCIAL_LINKS: SocialLinks = {
   linkedIn: 'https://www.linkedin.com/in/rashidshaikh-dev'.split(''),
   github: 'https://github.com/rashiddshaikh'.split(''),
   phone: ['+91-', '7304334553'],
-email: ['rashidshaikh.dev', '@gmail.com'],
-
+  email: ['rashidshaikh.dev', '@gmail.com'],
 };
 
 export interface Fact {

@@ -47,7 +47,15 @@ export const PROJECTS: Project[] = [
     description: `An AI-based mock interview assistant that generates technical questions and evaluates answers using advanced generative AI models.`,
     image: '/favicon.ico',
     link: 'https://github.com/rashiddshaikh/Ai-Interview-Mocker',
-    technologies: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript', 'Google Generative AI', 'Drizzle ORM', 'Clerk'],
+    technologies: [
+      'Next.js',
+      'React',
+      'Tailwind CSS',
+      'TypeScript',
+      'Google Generative AI',
+      'Drizzle ORM',
+      'Clerk',
+    ],
     company: 'Personal Project',
     client: 'Open Source',
     year: 2025,
@@ -72,12 +80,18 @@ export const PROJECTS: Project[] = [
     Includes a Flask API backend with an interactive web UI.`,
     image: '/favicon.ico',
     link: 'https://github.com/rashiddshaikh/animal-species-predictor',
-    technologies: ['Python', 'TensorFlow', 'Flask', 'HTML', 'CSS', 'JavaScript'],
+    technologies: [
+      'Python',
+      'TensorFlow',
+      'Flask',
+      'HTML',
+      'CSS',
+      'JavaScript',
+    ],
     company: 'Personal Project',
     client: 'Open Source',
     year: 2024,
   },
-
 
   {
     type: 'web',

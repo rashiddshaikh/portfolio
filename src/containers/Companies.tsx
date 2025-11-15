@@ -1,4 +1,4 @@
-// import BrandsSwiper from '@/components/BrandsSwiper'; 
+// import BrandsSwiper from '@/components/BrandsSwiper';
 // import Section from '@/containers/Section';
 
 // export default function Companies() {

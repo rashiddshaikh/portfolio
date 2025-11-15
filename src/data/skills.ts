@@ -7,7 +7,6 @@ export const SKILLS: string[] = [
   'javascript',
   'typescript',
 
-
   // backend
   'springboot',
   'nodejs',
@@ -35,7 +34,6 @@ export const SKILLS: string[] = [
   'postman',
   'vscode',
 ];
-
 
 // const MAPPING: { [key in TechnologyType]: IconType } = {
 // 	Android: DiAndroid,
