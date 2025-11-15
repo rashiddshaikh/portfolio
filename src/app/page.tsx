@@ -2,15 +2,18 @@
 
 import { Suspense, useEffect } from 'react';
 
+// Components
 import RevealWrapper from '@/components/animation/RevealAnimationWrapper';
 import SkillsSwiper from '@/components/TechnologiesSwiper';
 
+// Containers
 import About from '@/containers/About';
 import ExperienceCard from '@/containers/ExperienceCard';
 import Hero from '@/containers/Hero';
 import Projects from '@/containers/Projects';
 import Section from '@/containers/Section';
 
+// Env
 import {
   ENABLE_SESSION_TRACKING,
   HOTJAR_SITE_ID,

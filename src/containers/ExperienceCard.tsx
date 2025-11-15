@@ -24,6 +24,7 @@ export default function ExperienceCard() {
           data-te-ripple-init
           className="bg-b-dark mt-4 flex w-full flex-col place-items-start rounded-xl px-8 py-8 shadow-md shadow-lime-500/5"
         >
+          {/* Top Row: Logo + Title */}
           <div className="flex w-full flex-row place-items-center gap-4">
             <a
               target="_blank"
@@ -32,10 +33,10 @@ export default function ExperienceCard() {
             >
               <Image
                 alt={`${exp.company.name} logo`}
-                className="object-contain"
                 src={exp.company.logo}
                 width={40}
                 height={40}
+                className="object-contain"
               />
             </a>
 
@@ -43,10 +44,12 @@ export default function ExperienceCard() {
               <p className="m-0 p-0 text-xs text-white/80">
                 {exp.start} - {exp.end}
               </p>
+
               <p className="text-md m-0 mt-1 p-0">{exp.title}</p>
             </div>
           </div>
 
+          {/* Achievements */}
           <ul className="mt-2 list-disc pl-5">
             {exp.achievements.slice(0, 4).map((x) => (
               <li key={x} className="mt-1 text-xs text-lime-500 md:text-sm">
@@ -65,6 +68,7 @@ export default function ExperienceCard() {
             )}
           </ul>
 
+          {/* Tech Chips */}
           <div className="mt-2">
             <TechnologiesChips technologies={exp.technologies} />
           </div>

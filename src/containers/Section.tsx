@@ -36,7 +36,7 @@ export default function Section(props: Props) {
           className
         )}
       >
-        {props.isLoading ? <LinearLoading /> : <div className="h-2"></div>}
+        {props.isLoading ? <LinearLoading /> : <div className="h-2" />}
 
         <div className="container mx-auto">
           {title && (

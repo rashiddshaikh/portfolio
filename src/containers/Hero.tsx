@@ -23,10 +23,7 @@ export default function Hero() {
   const { titlePrefix, titles, firstName, lastName } =
     new DataProvider().personalInfo;
 
-  // ❌ Old: used ANY
-  // const sequence = titles.reduce((arr, title) => [...arr, title, TYPING_DELAY, 500], [] as any);
-
-  // ✅ New: Properly typed (string | number)[]
+  // ✔ Properly typed (string | number)[]
   const sequence: (string | number)[] = titles.flatMap((title) => [
     title,
     TYPING_DELAY,
@@ -59,8 +56,8 @@ export default function Hero() {
             width={511}
             quality={80}
             className="rounded object-cover object-center"
-            alt="hero"
-            blurDataURL="me_b.png"
+            alt="hero image"
+            blurDataURL="/me_b.png"
             placeholder="blur"
             src="/me.png"
           />

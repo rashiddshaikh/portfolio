@@ -3,20 +3,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Socials from '@/components/SocialLinks';
 import ArrowLink from '@/components/_base/ArrowLink';
+import Socials from '@/components/SocialLinks';
 import Section from '@/containers/Section';
 import DataProvider from '@/data/DataProvider';
 import { RESUME_PATH } from '@/utils/env';
 
 export default function About() {
-  const dataProvider = new DataProvider();
-  const about = dataProvider.personalInfo;
+  const about = new DataProvider().personalInfo;
 
   return (
     <Section
-      indentation={true}
-      elevated={true}
+      indentation
+      elevated
       margin="mx-0 sm:mx-5 md:mx-10 lg:mx-20"
       title="About"
       className="bg-b-dark fade-in mx-4 sm:container sm:mx-auto"
@@ -27,13 +26,13 @@ export default function About() {
         <h5
           className="text-md mx-auto text-start"
           dangerouslySetInnerHTML={{ __html: about.introduction }}
-        ></h5>
+        />
 
         <ArrowLink
           className="mx-auto mt-5"
           title="more about me"
           href={RESUME_PATH}
-          newTab={true}
+          newTab
         />
 
         {about.codewarsLink && (

@@ -16,7 +16,8 @@ export type SearchResult = {
   results: SearchFileResult[];
 };
 
-self.onmessage = async function (event: MessageEvent<SearchInFileOptions>) {
+// Worker listener
+self.onmessage = async (event: MessageEvent<SearchInFileOptions>) => {
   const data = await searchInFiles(event.data);
   postMessage(data);
 };
@@ -31,7 +32,7 @@ const searchInFiles = async (
 
   for (let i = 0; i < options.fileList.length; i++) {
     const file = options.fileList.item(i);
-    if (!file) break;
+    if (!file) continue;
 
     const fileResult = await searchInFile(file, options.query, options.max);
 
@@ -55,7 +56,7 @@ const searchInFile = async (
 
   const fileSize = file.size;
   const result: string[] = [];
-  const CHUNK_SIZE = 1024 * 1024; // 1 MB
+  const CHUNK_SIZE = 1024 * 1024; // 1MB
   const decoder = new TextDecoder('utf-8');
 
   let offset = 0;
@@ -68,17 +69,15 @@ const searchInFile = async (
     const decodedChunk = decoder.decode(chunk);
     const chunkLines = decodedChunk.split('\n');
 
+    // Remove trailing empty line for last chunk
     if (offset + CHUNK_SIZE >= fileSize) {
-      chunkLines.pop(); // remove last empty line
+      chunkLines.pop();
     }
 
     lines.push(...chunkLines);
 
-    // Process lines while the first is complete
-    while (
-      lines.length > 0 &&
-      (lines[0].endsWith('\n') || lines[0].endsWith('\r'))
-    ) {
+    // Process complete lines
+    while (lines.length > 0 && isCompleteLine(lines[0])) {
       const line = lines.shift();
       if (line && line.includes(query)) {
         result.push(line);
@@ -89,7 +88,7 @@ const searchInFile = async (
     offset += CHUNK_SIZE;
   }
 
-  // Remaining lines
+  // Process remaining buffer
   while (lines.length > 0) {
     const line = lines.shift();
     if (line && line.includes(query)) result.push(line);
@@ -98,6 +97,10 @@ const searchInFile = async (
 
   return result;
 };
+
+function isCompleteLine(line: string): boolean {
+  return line.endsWith('\n') || line.endsWith('\r');
+}
 
 function readChunk(
   file: File,
@@ -116,7 +119,7 @@ function readChunk(
       }
     };
 
-    reader.onerror = (error) => reject(error);
+    reader.onerror = reject;
 
     const chunk = file.slice(offset, offset + length);
     reader.readAsArrayBuffer(chunk);

@@ -1,17 +1,23 @@
-import { Analytics } from '@vercel/analytics/react';
-import { Metadata } from 'next';
-import Script from 'next/script';
-import React from 'react';
+'use client';
 
 import '@/styles/globals.css';
 
+import React from 'react';
+import Script from 'next/script';
+import { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
+
+// Components
 import BackToTopButton from '@/components/BackToTopButton';
 import GradientBackgroundGodrayThingy from '@/components/GradientBackgroundGodrayThingy';
 import Socials from '@/components/SocialLinks';
 import Footer from '@/containers/Footer';
 import Header from '@/containers/Header';
+
+// Data
 import { PERSONAL_INFO } from '@/data/info';
 
+// Env
 import {
   ACKEE_ANALYTICS_SCRIPT_URL,
   ACKEE_ANALYTICS_URL,
