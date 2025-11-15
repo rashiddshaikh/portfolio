@@ -1,27 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Remove deprecated: eslint, swcMinify, reactStrictMode
-
-  experimental: {},
+  // Force Webpack instead of Turbopack
+  turbopack: {
+    enabled: false,
+  },
 
   webpack(config) {
-    // Grab existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.('.svg')
     );
 
     config.module.rules.push(
-      // Reapply existing rule for *.svg?url
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
+        resourceQuery: /url/,
       },
-      // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
         issuer: { not: /\.(css|scss|sass)$/ },
-        resourceQuery: { not: /url/ }, // exclude if *.svg?url
+        resourceQuery: { not: /url/ },
         loader: '@svgr/webpack',
         options: {
           dimensions: false,
@@ -30,7 +28,6 @@ const nextConfig = {
       }
     );
 
-    // Ensure SVGs aren’t loaded twice
     fileLoaderRule.exclude = /\.svg$/i;
 
     return config;
