@@ -5,15 +5,15 @@ import Script from 'next/script';
 import { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 
-// Components
+// Components (Client components are allowed to be imported in layout)
 import BackToTopButton from '@/components/BackToTopButton';
 import GradientBackgroundGodrayThingy from '@/components/GradientBackgroundGodrayThingy';
 import Socials from '@/components/SocialLinks';
 import Footer from '@/containers/Footer';
 import Header from '@/containers/Header';
 
-// Data
-import { PERSONAL_INFO } from '@/data/info';
+// Static config imported from separate file (fixes metadata error)
+import { siteConfig } from '@/data/site-config';
 
 // Env
 import {
@@ -23,12 +23,7 @@ import {
   ENABLE_ANALYTICS,
 } from '@/utils/env';
 
-export const siteConfig = {
-  title: `${PERSONAL_INFO.firstName} ${PERSONAL_INFO.lastName} | ${PERSONAL_INFO.mainTitle}`,
-  description: 'My notable work and resume',
-  url: 'https://younes-megaache.com',
-};
-
+// ---- Static metadata (allowed in server components) ----
 export const metadata: Metadata = {
   title: {
     default: siteConfig.title,
@@ -39,7 +34,7 @@ export const metadata: Metadata = {
   icons: {},
   authors: [
     {
-      name: `${PERSONAL_INFO.firstName} ${PERSONAL_INFO.lastName}`,
+      name: siteConfig.author,
       url: siteConfig.url,
     },
   ],
@@ -51,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="en">
       {ENABLE_ANALYTICS && (
         <Script
           async
